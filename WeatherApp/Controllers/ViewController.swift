@@ -50,6 +50,7 @@ class ViewController: UIViewController {
             
             if response.result.isSuccess {
                 print("Got data")
+                print(JSON(response.result.value!))
                 
                 let jsonData: JSON = JSON(response.result.value!)
                 self.parseData(json: jsonData)
