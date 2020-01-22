@@ -45,6 +45,24 @@ class WeatherDataModel {
             return "patchyFreezeDrizzle"
         case 200:
             return "thundery"
+        case 227:
+            return "snow"
+        case 230:
+            return "snowStorm"
+        case 248...260:
+            return "fog"
+        case 263...266:
+            return "lightDrizzle"
+        case 281...284:
+            return "rain"
+        case 293...296:
+            return "lightRain"
+        case 299...302:
+            return "moderateRain"
+        case 305...308:
+            return "heavyRain"
+        case 311:
+            return "hail"
         default:
             return "None"
         }
