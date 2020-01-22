@@ -75,6 +75,9 @@ class ViewController: UIViewController {
             let weatherCode = json["current"]["weather_code"].intValue
             weatherDataModel.statusCode = weatherCode
             
+            let weatherDescription = json["current"]["weather_descriptions"][0].stringValue
+            weatherDataModel.weather = weatherDescription
+            
             let weatherPic = weatherDataModel.getWeatherCode(code: weatherDataModel.statusCode)
             weatherDataModel.weatherIcon = weatherPic
             
@@ -88,6 +91,17 @@ class ViewController: UIViewController {
                 weatherDataModel.state = stateName
             }
             
+            DispatchQueue.main.async {
+                self.cityLabel.text = self.weatherDataModel.city
+                self.stateLabel.text = self.weatherDataModel.state
+                self.weatherImage.image = UIImage(named: self.weatherDataModel.weatherIcon)
+                self.weatherStatus.text = self.weatherDataModel.weather
+                self.weatherTemp.text = "\(self.weatherDataModel.temperature)˚F"
+                self.windSpeedLabel.text = "\(self.weatherDataModel.windSpeed) MPH"
+                self.humidityLabel.text = "\(self.weatherDataModel.humidity) %"
+                self.windDirection.text = self.weatherDataModel.windDir
+                self.timeLabel.text = self.weatherDataModel.time
+            }
             
         }
         

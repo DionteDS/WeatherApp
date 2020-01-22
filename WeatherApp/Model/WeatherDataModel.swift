@@ -20,6 +20,7 @@ class WeatherDataModel {
     var windSpeed = 0
     var windDir = ""
     var humidity = 0
+    var weather = ""
     
     func getWeatherCode(code: Int) -> String {
 
