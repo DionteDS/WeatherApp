@@ -25,6 +25,8 @@ class ViewController: UIViewController {
     
     let baseURL = "http://api.weatherstack.com/current"
     
+    var weatherDataModel = WeatherDataModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +61,34 @@ class ViewController: UIViewController {
     func parseData(json: JSON) {
         
         if let weatherTemperature = json["current"]["temperature"].int {
-            weatherTemp.text = "\(weatherTemperature)˚F"
+            weatherDataModel.temperature = weatherTemperature
+            
+            let weatherHumidity = json["current"]["humidity"].intValue
+            weatherDataModel.humidity = weatherHumidity
+            
+            let weatherWindSpeed = json["current"]["wind_speed"].intValue
+            weatherDataModel.windSpeed = weatherWindSpeed
+            
+            let weatherDirection = json["current"]["wind_dir"].stringValue
+            weatherDataModel.windDir = weatherDirection
+            
+            let weatherCode = json["current"]["weather_code"].intValue
+            weatherDataModel.statusCode = weatherCode
+            
+            let weatherPic = weatherDataModel.getWeatherCode(code: weatherDataModel.statusCode)
+            weatherDataModel.weatherIcon = weatherPic
+            
+            if let cityName = json["location"]["name"].string {
+                weatherDataModel.city = cityName
+                
+                let cityTime = json["location"]["localtime"].stringValue
+                weatherDataModel.time = cityTime
+                
+                let stateName = json["location"]["region"].stringValue
+                weatherDataModel.state = stateName
+            }
+            
+            
         }
         
     }
