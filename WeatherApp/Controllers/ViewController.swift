@@ -23,8 +23,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windDirection: UILabel!
     
+    
+    // Base URL
     let baseURL = "http://api.weatherstack.com/current"
     
+    // WeatherDataModel object
     var weatherDataModel = WeatherDataModel()
     
     override func viewDidLoad() {
@@ -36,6 +39,7 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK: - Setup the query
     func setQuery(city: String) {
         
         let params: [String: String] = ["access_key": APIKEY, "query": city, "units": "f"]
@@ -43,15 +47,16 @@ class ViewController: UIViewController {
         fetchData(url: baseURL, parameters: params)
     }
     
+    //MARK: - NETWORKING
+    
+    // fetch the weather data
     func fetchData(url: String, parameters: [String: String]) {
         
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             response in
             
+            // check the response
             if response.result.isSuccess {
-                print("Got data")
-                print(JSON(response.result.value!))
-                
                 let jsonData: JSON = JSON(response.result.value!)
                 self.parseData(json: jsonData)
             }
@@ -59,8 +64,10 @@ class ViewController: UIViewController {
         
     }
     
+    // parse the weather data
     func parseData(json: JSON) {
         
+        // Store the data in the weatherDataModel properties
         if let weatherTemperature = json["current"]["temperature"].int {
             weatherDataModel.temperature = weatherTemperature
             
@@ -92,32 +99,42 @@ class ViewController: UIViewController {
                 weatherDataModel.state = stateName
             }
             
-            DispatchQueue.main.async {
-                self.cityLabel.text = self.weatherDataModel.city
-                self.stateLabel.text = self.weatherDataModel.state
-                self.weatherImage.image = UIImage(named: self.weatherDataModel.weatherIcon)
-                self.weatherStatus.text = self.weatherDataModel.weather
-                self.weatherTemp.text = "\(self.weatherDataModel.temperature)˚F"
-                self.windSpeedLabel.text = "\(self.weatherDataModel.windSpeed) MPH"
-                self.humidityLabel.text = "\(self.weatherDataModel.humidity) %"
-                self.windDirection.text = self.weatherDataModel.windDir
-                self.timeLabel.text = self.weatherDataModel.time
-            }
+            // call to update the UI
+            self.updateUI()
             
+        }
+    }
+
+    
+    //MARK: - Update the UI
+    func updateUI() {
+        
+        // Update the UI on the main thread
+        DispatchQueue.main.async {
+            self.cityLabel.text = self.weatherDataModel.city
+            self.stateLabel.text = self.weatherDataModel.state
+            self.weatherImage.image = UIImage(named: self.weatherDataModel.weatherIcon)
+            self.weatherStatus.text = self.weatherDataModel.weather
+            self.weatherTemp.text = "\(self.weatherDataModel.temperature)˚F"
+            self.windSpeedLabel.text = "\(self.weatherDataModel.windSpeed) MPH"
+            self.humidityLabel.text = "\(self.weatherDataModel.humidity) %"
+            self.windDirection.text = self.weatherDataModel.windDir
+            self.timeLabel.text = self.weatherDataModel.time
         }
         
     }
 
-
 }
 
-
+//MARK: - Search bar delegate methods
 extension ViewController: UISearchBarDelegate {
     
+    // Get the user searched city
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         setQuery(city: searchBar.text!)
         
+        // Dismiss the keyboard on the main thread
         DispatchQueue.main.async {
             searchBar.resignFirstResponder()
         }
