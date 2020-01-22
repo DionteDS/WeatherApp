@@ -11,6 +11,8 @@ import Foundation
 
 class WeatherDataModel {
     
+    // Properties
+    
     var temperature = 0
     var city = ""
     var weatherIcon = ""
@@ -21,6 +23,9 @@ class WeatherDataModel {
     var windDir = ""
     var humidity = 0
     var weather = ""
+    
+    // Check the weather code
+    // And return the image asset name
     
     func getWeatherCode(code: Int) -> String {
 
