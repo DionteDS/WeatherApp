@@ -36,6 +36,14 @@ class WeatherDataModel {
             return "mist"
         case 176:
             return "patchyRain"
+        case 179:
+            return "patchySnow"
+        case 182:
+            return "patchySleet"
+        case 185:
+            return "patchyFreezeDrizzle"
+        case 200:
+            return "thundery"
         default:
             return "None"
         }
