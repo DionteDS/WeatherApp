@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     func setQuery(city: String) {
         
-        let params: [String: String] = ["access_key": APIKEY, "query": "San Francisco", "units": "f"]
+        let params: [String: String] = ["access_key": APIKEY, "query": city, "units": "f"]
         
         fetchData(url: baseURL, parameters: params)
     }
@@ -48,7 +48,18 @@ class ViewController: UIViewController {
             
             if response.result.isSuccess {
                 print("Got data")
+                
+                let jsonData: JSON = JSON(response.result.value!)
+                self.parseData(json: jsonData)
             }
+        }
+        
+    }
+    
+    func parseData(json: JSON) {
+        
+        if let weatherTemperature = json["current"]["temperature"].int {
+            weatherTemp.text = "\(weatherTemperature)˚F"
         }
         
     }
