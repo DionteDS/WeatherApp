@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     
     // Base URL
     let baseURL = "http://api.weatherstack.com/current"
+//    let APIKEY = "Place your api key here"
     
     // WeatherDataModel object
     var weatherDataModel = WeatherDataModel()
