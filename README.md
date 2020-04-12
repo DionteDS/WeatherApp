@@ -24,7 +24,3 @@ You will also need to sign up on Open Weather Map for an api key.
 
 * [Alamofire](https://github.com/Alamofire/Alamofire)
 * [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
-
-## Errors
-
-If any errors happen before running the app just delete the Keys.swift file.
